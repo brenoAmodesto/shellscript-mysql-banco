@@ -1,1 +1,1 @@
-$ Testando
+Script simples para manipular tabelas.
