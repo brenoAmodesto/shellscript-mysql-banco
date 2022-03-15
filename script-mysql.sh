@@ -54,39 +54,55 @@ codigo_venda(){
 
    echo "Digite o token"
    read token
-   char=$( echo "$token" | wc -m ) 
-   echo "$char" 
-if [ "$char" = "37" ];
+   ver1=$( echo "$token" | wc -m ) 
+   echo "$teste" 
+
+if [ "$ver1" = "37" ];
 then 
-   mysql -u root -p!@A7v400mx -e "select id, codigo, token from impressao_relacionamento where token='$token' " banco > codigo.txt
+   mysql -u root -p!@A7v400mx -e "select id, codigo, token from impressao_relacionamento where token='$token' " illi > codigo.txt
    codigo=$( cat codigo.txt | awk '{print $2}' | grep '[0-9]' )
    id=$( cat codigo.txt | awk '{print $1}' | grep '[[:digit:]]' )
-   #random=$( echo $(( $RANDOM % 9 )) )
    data=$( date )
    novocodigo=$( cat codigo.txt | awk 'NR==2 {print $2}' | grep '[0-9]' | sed -e 's#\(.\{14\}\)\(.*\)#\11\2#g' )
-   
-   #echo "$random aleatorio" 
-   echo "Este é o código -> $codigo"
-   #echo "$novocodigo"
-   echo "Update feito as $data" >> codigo.txt
-   echo "Este é o código antigo $codigo esse é o código novo $novocodigo" >> codigo.txt
-   echo "Veja na nuvem se há um código igual, se sim, digite y para fazer um update caso contrário digite n"
-   read afr
+   ver2=$( echo "$codigo" | wc -m )    
+else
+   echo "Token errado"
+fi
 
 
-   if [ "$afr" = "y" ];
-   then
-       mysql -u root -psenhabanco -e "update impressao_relacionamento set codigo='$novocodigo' where id='$id' " banco
-   else
-      echo "Exiting.."
-   fi
+if [ "$ver2" = "16" ];
+then
+    echo "Este é o código -> $codigo"
+    echo "Update feito as $data" >> codigo.txt
+    echo "Este é o código antigo $codigo esse é o código novo $novocodigo" >> codigo.txt
+    echo "Veja na nuvem se há um código igual, se sim, digite y para fazer um update caso contrário digite n"
+    read afr
+else 
+    echo "Código errado"
+fi
 
+
+if [ "$afr" = "y" ];
+then
+   mysql -u root -p!@A7v400mx -e "update impressao_relacionamento set codigo='$novocodigo' where id='$id' " illi
    clear
    cat codigo.txt
-else
-   echo -e "Token Errado"
+else 
+   echo "Exiting..."
 fi
-}
+
+echo "Deseja desfazer update?  [y/n]"
+read ver4
+
+if [ "$ver4" = "y" ];
+then
+    mysql -u root -p!@A7v400mx -e "update impressao_relacionamento set codigo='$codigo' where id='$id' " illi
+    clear
+    echo "Exiting..... Succeed"
+    echo "Update desfeito"
+else
+   echo "Exiting.."
+fi
 
 
 if [ "$var2" == "1" ];
