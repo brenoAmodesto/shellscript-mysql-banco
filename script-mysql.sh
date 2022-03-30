@@ -1,14 +1,15 @@
 #!/bin/bash
-echo -e "\e[34;1m Script MySQL \e[m"
-echo -e "\e[35;1m ------------------------ \e[m"
+echo1=$(echo -e "\e[34;1m Script Illimitar \e[m")
+echo2=$(echo -e "\e[35;1m ------------------------ \e[m")
+date=$(date +%H:%M:%S)
+echo4=$(echo "Horário do servidor -> $date")
+echo5=$(echo -e " 1- Consultar tabela por id ou token \n 2- Achar usuario e conta do caixa \n 3- Codigo da venda ja cadastrado " 
+read var2)
 
-echo -e " 1- Consultar tabela por id ou token \n 2- Achar usuario e conta do caixa \n 3- Codigo da venda ja cadastrado "
-read var2
+var=n
 
 #Consultar tabela
-
-consulta_tabela(){
-var=n 
+consulta_tabela(){ 
      while [ "$var" != "y" ]; do 
         echo -e "\e[32;1m Digite o nome do banco que deseja usar: \e[m "
         read banco
@@ -20,14 +21,13 @@ var=n
         #then
         #     echo "Essa tabela contêm a coluna token"
         #fi
-        
         echo -e "\e[36;1m Digite onde (where) id ou token etc\e[m"
         read onde
         
         echo -e "\e[36;1m Digite o id token etc"
         read arg
 
-        mysql -u root -psenhabanco -e "select * from $tabela where $onde = '$arg';" $banco  
+        mysql -u root -p!@A7v400mx -e "select * from $tabela where $onde = '$arg';" $banco  
         echo $?
      
         echo "Digite y para sair ou pressione enter para continuar"
@@ -41,11 +41,11 @@ achar_conta(){
     echo "Digite o token"
     read token
 
-    mysql -u root -psenhabanco -e "select id_caixa from impressao_relacionamento where token ='$token' " banco > cat.txt
+    mysql -u root -p!@A7v400mx -e "select id_caixa from impressao_relacionamento where token ='$token' " illi > cat.txt
 
     var1=$( cat cat.txt | awk -F "id_caixa" '{print $1}' | grep -x -E '[[:digit:]]+' )
 
-    mysql -u root -psenhabanco -e "select data_abertura, data_fechamento, id_usuario, id_conta from caixa where id =$var1" banco
+    mysql -u root -p!@A7v400mx -e "select data_abertura, data_fechamento, id_usuario, id_conta from caixa where id =$var1" illi
 }
 
 #Codigo da venda já existente
@@ -104,14 +104,17 @@ else
    echo "Exiting.."
 fi
 
+}
 
-if [ "$var2" == "1" ];
-then
-    consulta_tabela  
-elif [ "$var2" == "2" ];
-then
-     achar_conta
-elif [ "$var2" == "3" ];
-then
-     codigo_venda
-fi
+while test -n "$var2"
+do 
+   case "$var2" in
+      1) consulta_tabela ;;
+      2) achar_conta     ;; 
+      3) codigo_venda    ;;
+      *) exit 1          ;;
+    esac
+    shift
+done
+
+
