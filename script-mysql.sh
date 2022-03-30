@@ -11,7 +11,6 @@ var=n
 
 ##---------------------------------------------------FUNCÕES----------------------------------------------------------------------##
 
-
 consulta_tabela(){ 
      while [ "$var" != "y" ]; do 
         echo -e "\e[32;1m Digite o nome do banco que deseja usar: \e[m "
@@ -34,8 +33,6 @@ consulta_tabela(){
    done
 }
 
-
-
 achar_conta(){
     echo "Digite o token"
     read token
@@ -46,8 +43,6 @@ achar_conta(){
 
     mysql -u root -p!@A7v400mx -e "select data_abertura, data_fechamento, id_usuario, id_conta from caixa where id =$var1" illi
 }
-
-
 
 codigo_venda(){
 
