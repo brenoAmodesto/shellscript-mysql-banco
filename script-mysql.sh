@@ -1,14 +1,17 @@
 #!/bin/bash
+##----------------------------------------------------------VARIÁVEIS-------------------------------------------------------------##
+
+##----------------------------------------------------------VARIÁVEIS-------------------------------------------------------------##
 echo1=$(echo -e "\e[34;1m Script Illimitar \e[m")
 echo2=$(echo -e "\e[35;1m ------------------------ \e[m")
 date=$(date +%H:%M:%S)
 echo4=$(echo "Horário do servidor -> $date")
-echo5=$(echo -e " 1- Consultar tabela por id ou token \n 2- Achar usuario e conta do caixa \n 3- Codigo da venda ja cadastrado " 
-read var2)
-
 var=n
+##---------------------------------------------------FUNCÕES----------------------------------------------------------------------##
 
-#Consultar tabela
+##---------------------------------------------------FUNCÕES----------------------------------------------------------------------##
+
+
 consulta_tabela(){ 
      while [ "$var" != "y" ]; do 
         echo -e "\e[32;1m Digite o nome do banco que deseja usar: \e[m "
@@ -17,10 +20,6 @@ consulta_tabela(){
         echo -e "\e[34;1m Digite a tabela que deseja consultar: \e[m "
         read tabela
 
-        #if [ "$tabela" = "impressao_relacionamento" ]
-        #then
-        #     echo "Essa tabela contêm a coluna token"
-        #fi
         echo -e "\e[36;1m Digite onde (where) id ou token etc\e[m"
         read onde
         
@@ -35,7 +34,7 @@ consulta_tabela(){
    done
 }
 
-#Achar usuario e conta
+
 
 achar_conta(){
     echo "Digite o token"
@@ -48,7 +47,7 @@ achar_conta(){
     mysql -u root -p!@A7v400mx -e "select data_abertura, data_fechamento, id_usuario, id_conta from caixa where id =$var1" illi
 }
 
-#Codigo da venda já existente
+
 
 codigo_venda(){
 
@@ -106,6 +105,14 @@ fi
 
 }
 
+##---------------------------------------------------EXECUÇÃO----------------------------------------------------------------------##
+
+##---------------------------------------------------EXECUÇÃO----------------------------------------------------------------------##
+
+
+echo -e " $echo1 \n $echo2 \n $echo4 \n 1- Consultar tabela por id ou token \n 2- Achar usuario e conta do caixa \n 3- Codigo da venda ja cadastrado "
+read var2
+
 while test -n "$var2"
 do 
    case "$var2" in
@@ -116,5 +123,3 @@ do
     esac
     shift
 done
-
-
